@@ -15,7 +15,7 @@ else
     git pull origin main
 fi
 
-playbookCmd="ansible-playbook -i localhost, $ansiblePlaybook  --connection=local"
+playbookCmd="ansible-playbook -i localhost, $ansiblePlaybook --connection=local"
 # Run Ansible playbook
 bash -c "$playbookCmd"
 

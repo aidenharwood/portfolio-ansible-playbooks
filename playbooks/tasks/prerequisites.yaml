@@ -1,6 +1,5 @@
 ---
 - name: Install prerequisite software
-  hosts: all
   become: yes
   tasks:
     - name: Install kubectl
