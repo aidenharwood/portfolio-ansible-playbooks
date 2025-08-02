@@ -3,7 +3,7 @@ sudo apt update
 sudo apt install -y ansible
 
 ansibleDir="~/.portfolio-ansible-playbooks"
-ansiblePlaybook="playbooks/kubernetes.yaml"
+ansiblePlaybook="playbooks/main.yaml"
 
 # Clone playbook git repo
 if [ ! -d $ansibleDir ]; then
