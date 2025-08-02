@@ -11,6 +11,7 @@
     release_namespace: argocd
     create_namespace: true
     kubeconfig: /var/lib/k0s/pki/admin.conf
+    validate_certs: false
     values:
       configs:
         params:

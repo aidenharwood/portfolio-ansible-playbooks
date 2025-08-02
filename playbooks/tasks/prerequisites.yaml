@@ -9,7 +9,7 @@
     classic: true
     state: present
 
-- name: Install k0s
+- name: Download k0s installer
   ansible.builtin.get_url:
     url: https://get.k0s.sh
     dest: /tmp/get-k0s.sh
@@ -19,6 +19,14 @@
   ansible.builtin.shell: /tmp/get-k0s.sh
   args:
     creates: /usr/local/bin/k0s
+
+- name: Initialize k0s controller
+  ansible.builtin.shell: k0s install controller --enable-worker
+  args:
+    creates: /var/lib/k0s/pki/admin.conf
+
+- name: Initialize k0s credentials
+  ansible.builtin.shell: k0s kubeconfig admin > /var/lib/k0s/pki/admin.conf
 
 - name: Ensure k0s is running
   ansible.builtin.systemd:
