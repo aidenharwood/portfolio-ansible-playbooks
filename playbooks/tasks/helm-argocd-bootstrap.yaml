@@ -1,11 +1,11 @@
-- name: Add bootstrap Helm repository
-  kubernetes.core.helm_repository:
-    name: bootstrap
-    repo_url: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git
+- name: Clone bootstrap Helm repository
+  ansible.builtin.git:
+    repo: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git
+    dest: /tmp/bootstrap-helm-argocd
 
-- name: Deploy argocd-bootstrap Helm chart
+- name: Deploy bootstrap chart from local path
   kubernetes.core.helm:
-    name: argocd-bootstrap
-    chart_ref: bootstrap
-    release_namespace: argocd
+    name: test
+    chart_ref: /tmp/bootstrap-helm-argocd
+    release_namespace: monitoring
     kubeconfig: /var/lib/k0s/pki/admin.conf
