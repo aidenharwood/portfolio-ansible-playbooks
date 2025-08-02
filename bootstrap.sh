@@ -19,5 +19,5 @@ playbookCmd="ansible-playbook -i localhost, $ansiblePlaybook --connection=local"
 # Run Ansible playbook
 bash -c "sudo $playbookCmd"
 
-crontab="0 0 * * * cd $ansibleDir && git pull origin main && $playbookCmd"
-#(crontab -l 2>/dev/null; echo "$crontab") | crontab -
+crontab="0 0 * * * cd $ansibleDir && git pull origin main && sudo $playbookCmd"
+(crontab -l 2>/dev/null; echo "$crontab") | crontab -

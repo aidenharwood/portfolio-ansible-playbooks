@@ -26,7 +26,7 @@
     creates: /var/lib/k0s/pki/admin.conf
 
 - name: Initialize k0s credentials
-  ansible.builtin.shell: k0s kubeconfig admin > /var/lib/k0s/pki/admin.conf
+  ansible.builtin.shell: k0s kubeconfig admin
 
 - name: Ensure k0s is running
   ansible.builtin.systemd:
