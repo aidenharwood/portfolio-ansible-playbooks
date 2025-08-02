@@ -27,5 +27,13 @@
     enabled: true
 
 - name: Configure kubectl for k0s
-  ansible.builtin.command:
-    cmd: export KUBECONFIG=/var/lib/k0s/pki/admin.conf
+  ansible.builtin.lineinfile:
+  path: .bashrc
+  line: export KUBECONFIG=/var/lib/k0s/pki/admin.conf
+
+- name: Reload Shell
+  shell: "{{ item }}"
+  with_items:
+    - source /home/ubuntu/.bashrc
+  args:
+  executable: /usr/bin/bash
