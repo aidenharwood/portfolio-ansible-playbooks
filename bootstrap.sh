@@ -8,12 +8,9 @@ ansiblePlaybook="playbooks/kubernetes.yml"
 # Clone playbook git repo
 if [ ! -d $ansibleDir ]; then
     mkdir -p $ansibleDir
-    cd $ansibleDir || exit
+    cd $ansibleDir
     git clone https://github.com/aidenharwood/portfolio-ansible-playbooks.git .
 fi
-
-# Navigate to the playbook directory
-cd $ansibleDir || exit
 
 # Run Ansible playbook
 ansible-playbook -i localhost, $ansiblePlaybook
