@@ -34,6 +34,6 @@
 - name: Reload Shell
   shell: "{{ item }}"
   with_items:
-    - source /home/ubuntu/.bashrc
+    - source ~/.bashrc
   args:
   executable: /usr/bin/bash
