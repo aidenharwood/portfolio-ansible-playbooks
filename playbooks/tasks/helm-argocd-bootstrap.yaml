@@ -5,7 +5,7 @@
 
 - name: Deploy bootstrap chart from local path
   kubernetes.core.helm:
-    name: test
+    name: argocd-bootstrap
     chart_ref: /tmp/bootstrap-helm-argocd
-    release_namespace: monitoring
+    release_namespace: argocd
     kubeconfig: /var/lib/k0s/pki/admin.conf
