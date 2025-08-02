@@ -3,11 +3,17 @@
     repo: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git
     dest: /tmp/portfolio-helm-argocd
 
+# - name: Install ArgoCD Helm chart
+#   kubernetes.core.helm:
+#     name: argocd
+#     chart_ref: /tmp/portfolio-helm-argocd
+#     release_namespace: argocd
+#     create_namespace: true
+#     values: {}
+#     context: ~/k0s.admin.conf
+
 - name: Install ArgoCD Helm chart
-  kubernetes.core.helm:
-    name: argocd
-    chart_ref: /tmp/portfolio-helm-argocd
-    release_namespace: argocd
-    create_namespace: true
-    values: {}
-    context: ~/k0s.admin.conf
+  shell: |
+    helm upgrade --install argocd . --namespace argocd --create-namespace
+  environment:
+    KUBECONFIG: /var/lib/k0s/pki/admin.conf
