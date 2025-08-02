@@ -34,8 +34,8 @@
 - name: Configure kubectl for k0s
   ansible.builtin.command:
     cmd: |
-      sudo cp /var/lib/k0s/pki/admin.conf ~/admin.conf
-      export KUBECONFIG=~/admin.conf
+      cp /var/lib/k0s/pki/admin.conf "~/k0s.admin.conf"
+      export KUBECONFIG="~/k0s.admin.conf"
   when: ansible_distribution == "Ubuntu"
 
 - name: Set KUBECONFIG environment variable
