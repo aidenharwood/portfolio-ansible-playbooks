@@ -1,5 +1,6 @@
 ---
 - name: Configure k8s host
+  hosts: all
   become: true
   tasks:
     - include_tasks: tasks/prerequisites.yaml
