@@ -1,0 +1,13 @@
+- name: Clone portfolio ArgoCD Helm repository
+  ansible.builtin.git:
+    repo: https://github.com/aidenharwood/portfolio-helm-argocd.git
+    dest: /tmp/portfolio-helm-argocd
+
+- name: Install ArgoCD Helm chart
+  kubernetes.core.helm:
+    name: argocd
+    chart_ref: /tmp/portfolio-helm-argocd
+    release_namespace: argocd
+    create_namespace: true
+    state: present
+    values: {}

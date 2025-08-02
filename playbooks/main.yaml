@@ -1,0 +1,6 @@
+---
+- name: Configure k8s host
+  become: true
+  tasks:
+    - include_tasks: tasks/prerequisites.yml
+    - include_tasks: tasks/helm-argocd.yml
