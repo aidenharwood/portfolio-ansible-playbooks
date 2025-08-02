@@ -15,6 +15,7 @@
 - name: Install ArgoCD Helm chart
   ansible.builtin.shell:
     cmd: |
+      helm dependency update .
       helm dependency build .      
       helm upgrade --install argocd . --namespace argocd --create-namespace
     chdir: /tmp/portfolio-helm-argocd
