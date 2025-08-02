@@ -4,3 +4,4 @@
   tasks:
     - include_tasks: tasks/prerequisites.yaml
     - include_tasks: tasks/helm-argocd.yaml
+  when: ansible_distribution == "Ubuntu"
