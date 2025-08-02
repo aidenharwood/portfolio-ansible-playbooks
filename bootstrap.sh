@@ -3,7 +3,7 @@ sudo apt update
 sudo apt install -y ansible
 
 ansibleDir="~/.portfolio-ansible-playbooks"
-ansiblePlaybook="playbooks/kubernetes.yml"
+ansiblePlaybook="playbooks/kubernetes.yaml"
 
 # Clone playbook git repo
 if [ ! -d $ansibleDir ]; then
@@ -18,5 +18,5 @@ fi
 # Run Ansible playbook
 ansible-playbook -i localhost, $ansiblePlaybook
 
-$crontab = "0 0 * * * cd $ansibleDir && git pull origin main && ansible-playbook -i localhost, $ansiblePlaybook"
+crontab="0 0 * * * cd $ansibleDir && git pull origin main && ansible-playbook -i localhost, $ansiblePlaybook"
 #(crontab -l 2>/dev/null; echo "$crontab") | crontab -
