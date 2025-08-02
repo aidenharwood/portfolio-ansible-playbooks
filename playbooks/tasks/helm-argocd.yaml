@@ -1,6 +1,6 @@
 - name: Clone portfolio ArgoCD Helm repository
   ansible.builtin.git:
-    repo: https://github.com/aidenharwood/portfolio-helm-argocd.git
+    repo: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git
     dest: /tmp/portfolio-helm-argocd
 
 - name: Install ArgoCD Helm chart
