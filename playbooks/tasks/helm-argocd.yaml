@@ -10,3 +10,4 @@
     release_namespace: argocd
     create_namespace: true
     values: {}
+    context: ~/k0s.admin.conf
