@@ -10,3 +10,5 @@
     release_namespace: argocd
     create_namespace: true
     values: {}
+    environment:
+      K8S_AUTH_CONTEXT: ~/k0s.admin.conf

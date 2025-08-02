@@ -35,10 +35,4 @@
   ansible.builtin.command:
     cmd: |
       cp /var/lib/k0s/pki/admin.conf "~/k0s.admin.conf"
-      export KUBECONFIG="~/k0s.admin.conf"
-  when: ansible_distribution == "Ubuntu"
-
-- name: Set KUBECONFIG environment variable
-  ansible.builtin.set_fact:
-    kubectl_config: ~/k0s.admin.conf
   when: ansible_distribution == "Ubuntu"
