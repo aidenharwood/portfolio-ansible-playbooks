@@ -13,9 +13,10 @@
 #     context: ~/k0s.admin.conf
 
 - name: Install ArgoCD Helm chart
-  ansible.builtin.shell: |
-    helm dependency update .
-    helm upgrade --install argocd . --namespace argocd --create-namespace
-  chdir: /tmp/portfolio-helm-argocd
+  ansible.builtin.shell:
+    cmd: |
+      helm dependency update .
+      helm upgrade --install argocd . --namespace argocd --create-namespace
+    chdir: /tmp/portfolio-helm-argocd
   environment:
     KUBECONFIG: /var/lib/k0s/pki/admin.conf
