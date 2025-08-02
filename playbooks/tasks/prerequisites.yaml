@@ -23,3 +23,21 @@
   args:
     creates: /usr/local/bin/k0s
   when: ansible_distribution == "Ubuntu"
+
+- name: Ensure k0s is running
+  ansible.builtin.systemd:
+    name: k0scontroller
+    state: started
+    enabled: true
+  when: ansible_distribution == "Ubuntu"
+
+- name: Configure kubectl for k0s
+  ansible.builtin.command:
+    cmd: k0s kubectl config view --raw > ~/k0s.admin.conf
+  when: ansible_distribution == "Ubuntu"
+
+- name: Set KUBECONFIG environment variable
+  ansible.builtin.set_fact:
+    kubectl_config: ~/k0s.admin.conf
+  when: ansible_distribution == "Ubuntu"
+  
