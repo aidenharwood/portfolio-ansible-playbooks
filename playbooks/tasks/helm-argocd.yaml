@@ -9,5 +9,4 @@
     chart_ref: /tmp/portfolio-helm-argocd
     release_namespace: argocd
     create_namespace: true
-    state: present
     values: {}
