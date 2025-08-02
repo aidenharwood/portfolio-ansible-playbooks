@@ -25,8 +25,3 @@
     name: k0scontroller
     state: started
     enabled: true
-
-- name: Configure kubectl for k0s
-  ansible.builtin.lineinfile:
-    path: .bashrc
-    line: export KUBECONFIG=/var/lib/k0s/pki/admin.conf
