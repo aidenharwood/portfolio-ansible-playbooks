@@ -2,7 +2,7 @@
 sudo apt update
 sudo apt install -y ansible
 
-ansibleDir="/var/portfolio-ansible-playbooks"
+ansibleDir="~/portfolio-ansible-playbooks"
 ansiblePlaybook="playbooks/main.yaml"
 
 # Clone playbook git repo
