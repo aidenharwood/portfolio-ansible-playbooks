@@ -10,6 +10,9 @@ if [ ! -d $ansibleDir ]; then
     mkdir -p $ansibleDir
     cd $ansibleDir
     git clone https://github.com/aidenharwood/portfolio-ansible-playbooks.git .
+else
+    cd $ansibleDir
+    git pull origin main
 fi
 
 # Run Ansible playbook
