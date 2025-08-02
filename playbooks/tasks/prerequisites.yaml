@@ -25,3 +25,10 @@
     name: k0scontroller
     state: started
     enabled: true
+
+- name: Make k0s kubeconfig available
+  ansible.builtin.file:
+    path: /var/lib/k0s/pki/admin.conf
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0644"
