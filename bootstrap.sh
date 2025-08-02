@@ -15,8 +15,9 @@ else
     git pull origin main
 fi
 
+playbookCmd="ansible-playbook -i localhost, $ansiblePlaybook  --connection=local"
 # Run Ansible playbook
-ansible-playbook -i localhost, $ansiblePlaybook
+bash -c "$playbookCmd"
 
-crontab="0 0 * * * cd $ansibleDir && git pull origin main && ansible-playbook -i localhost, $ansiblePlaybook"
+crontab="0 0 * * * cd $ansibleDir && git pull origin main && $playbookCmd"
 #(crontab -l 2>/dev/null; echo "$crontab") | crontab -
