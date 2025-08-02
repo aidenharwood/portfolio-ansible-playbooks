@@ -1,23 +1,12 @@
-- name: Clone portfolio ArgoCD Helm repository
-  ansible.builtin.git:
-    repo: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git
-    dest: /tmp/portfolio-helm-argocd
+- name: Add ArgoCD chart repo
+  kubernetes.core.helm_repository:
+    name: argo
+    repo_url: https://argoproj.github.io/argo-helm
 
-# - name: Install ArgoCD Helm chart
-#   kubernetes.core.helm:
-#     name: argocd
-#     chart_ref: /tmp/portfolio-helm-argocd
-#     release_namespace: argocd
-#     create_namespace: true
-#     values: {}
-#     context: ~/k0s.admin.conf
+- name: Deploy ArgoCD
+  kubernetes.core.helm:
+    name: argocd
+    chart_ref: argo/argo-cd
+    chart_version: 8.2.5
+    release_namespace: argocd
 
-- name: Install ArgoCD Helm chart
-  ansible.builtin.shell:
-    cmd: |
-      helm dependency update .
-      helm dependency build .      
-      helm upgrade --install argocd . --namespace argocd --create-namespace
-    chdir: /tmp/portfolio-helm-argocd
-  environment:
-    KUBECONFIG: /var/lib/k0s/pki/admin.conf

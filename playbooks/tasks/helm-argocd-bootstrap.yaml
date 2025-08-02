@@ -1,0 +1,10 @@
+- name: Add bootstrap Helm repository
+  kubernetes.core.helm_repository:
+    name: bootstrap
+    repo_url: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git
+
+- name: Deploy argocd-bootstrap Helm chart
+  kubernetes.core.helm:
+    name: argocd-bootstrap
+    chart_ref: bootstrap
+    release_namespace: argocd
