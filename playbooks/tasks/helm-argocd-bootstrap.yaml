@@ -8,3 +8,4 @@
     name: argocd-bootstrap
     chart_ref: bootstrap
     release_namespace: argocd
+    kubeconfig: /var/lib/k0s/pki/admin.conf
