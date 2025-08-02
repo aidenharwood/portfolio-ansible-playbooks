@@ -9,5 +9,6 @@
     chart_ref: argo/argo-cd
     chart_version: 8.2.5
     release_namespace: argocd
+    create_namespace: true
     kubeconfig: /var/lib/k0s/pki/admin.conf
 
