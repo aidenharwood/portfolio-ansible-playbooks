@@ -2,24 +2,24 @@
   ansible.builtin.apt:
     name: kubectl
     state: present
-  when: ansible_os_family == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install helm
   community.general.snap:
     name: helm
     classic: true
     state: present
-  when: ansible_os_family == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install k0s
   ansible.builtin.get_url:
     url: https://get.k0s.sh
     dest: /tmp/get-k0s.sh
     mode: "0755"
-  when: ansible_os_family == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
 
 - name: Run k0s installer
   ansible.builtin.shell: /tmp/get-k0s.sh
   args:
     creates: /usr/local/bin/k0s
-  when: ansible_os_family == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
