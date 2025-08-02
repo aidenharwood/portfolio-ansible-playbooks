@@ -1,4 +1,3 @@
----
 - name: Install prerequisite software
   become: yes
   tasks:
