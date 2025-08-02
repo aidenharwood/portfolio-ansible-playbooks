@@ -14,6 +14,8 @@
 
 - name: Install ArgoCD Helm chart
   ansible.builtin.shell: |
-    helm upgrade --install argocd /tmp/portfolio-helm-argocd --namespace argocd --create-namespace
+    helm dependency update .
+    helm upgrade --install argocd . --namespace argocd --create-namespace
+  chdir: /tmp/portfolio-helm-argocd
   environment:
     KUBECONFIG: /var/lib/k0s/pki/admin.conf
