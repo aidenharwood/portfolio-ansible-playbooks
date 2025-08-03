@@ -47,3 +47,11 @@
     name: k0scontroller
     state: started
     enabled: true
+
+- name: Open firewall for k0s
+  ansible.builtin.shell: |
+    sudo ufw allow 6443/tcp
+    sudo ufw allow 80/tcp
+    sudo ufw allow 443/tcp
+    sudo ufw allow 10250/tcp
+    sudo ufw reload
