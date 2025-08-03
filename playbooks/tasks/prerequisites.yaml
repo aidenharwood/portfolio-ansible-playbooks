@@ -9,6 +9,11 @@
     classic: true
     state: present
 
+- name: Install yq
+  community.general.apt:
+    name: yq
+    state: present
+
 - name: Download k0s installer
   ansible.builtin.get_url:
     url: https://get.k0s.sh
@@ -20,23 +25,25 @@
   args:
     creates: /usr/local/bin/k0s
 
-- name: Initialize k0s controller
-  ansible.builtin.shell: k0s install controller --enable-worker
-  args:
-    creates: /var/lib/k0s/pki/admin.conf
+- name: Create k0s configuration directory
+  ansible.builtin.file:
+    path: ${HOME}/.k0s
+    state: directory
+
+- name: Create k0s config
+  ansible.builtin.shell: k0s config create > ${HOME}/.k0s/k0s.yaml
+
+- name: Install k0s controller/worker
+  ansible.builtin.shell: k0s install controller --config ${HOME}/.k0s/k0s.yaml --enable-worker
 
 - name: Initialize k0s credentials
-  ansible.builtin.shell: k0s kubeconfig admin
+  ansible.builtin.shell: |
+    k0s kubeconfig admin | \
+    yq '.contexts[0].name = "k0s-local" | .current-context = "k0s-local' \
+    >> ${HOME}/.kube/config
 
 - name: Ensure k0s is running
   ansible.builtin.systemd:
     name: k0scontroller
     state: started
     enabled: true
-
-- name: Make k0s kubeconfig available
-  ansible.builtin.file:
-    path: /var/lib/k0s/pki/admin.conf
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
-    mode: "0644"
