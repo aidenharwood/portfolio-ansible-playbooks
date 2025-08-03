@@ -8,6 +8,5 @@
     name: argocd-bootstrap
     chart_ref: /tmp/bootstrap-helm-argocd
     release_namespace: argocd
-    kubeconfig: ${HOME}/.k0s/admin.conf
     values:
       repo: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git

@@ -10,7 +10,6 @@
     chart_version: 8.2.5
     release_namespace: argocd
     create_namespace: true
-    kubeconfig: ${HOME}/.k0s/admin.conf
     validate_certs: false
     values:
       configs:
