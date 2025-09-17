@@ -41,9 +41,7 @@
 
 - name: Initialize k0s credentials
   ansible.builtin.shell: |
-    k0s kubeconfig admin | \
-    yq '.contexts[0].name = "k0s-local" | .current-context = "k0s-local' \
-    >> ${HOME}/.kube/config
+    k0s kubeconfig admin | yq >> ${HOME}/.kube/config
 
 - name: Ensure k0s is running
   ansible.builtin.systemd:
