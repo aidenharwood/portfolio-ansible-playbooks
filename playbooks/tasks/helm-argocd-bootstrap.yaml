@@ -1,6 +1,15 @@
 - name: Install ArgoCD CRDs
   ansible.builtin.shell: |
-    kubectl apply -k https://github.com/argoproj/argo-cd/manifests/crds\?ref\=stable
+    kubectl apply -k https://github.com/argoproj/argo-cd/manifests/crds?ref=stable
+
+    ARGOCD_NAMESPACE="default" # e.g. argo-cd
+    ARGOCD_RELEASENAME="argocd" # e.g. argo-cd
+    
+    for crd in "applications.argoproj.io" "applicationsets.argoproj.io" "appprojects.argoproj.io"; do
+      kubectl label --overwrite crd $crd app.kubernetes.io/managed-by=Helm
+      kubectl annotate --overwrite crd $crd meta.helm.sh/release-namespace="$ARGOCD_NAMESPACE"
+      kubectl annotate --overwrite crd $crd meta.helm.sh/release-name="$ARGOCD_RELEASENAME"
+    done
 
 - name: Clone bootstrap Helm repository
   ansible.builtin.git:
@@ -11,6 +20,7 @@
   kubernetes.core.helm:
     name: argocd-bootstrap
     chart_ref: /tmp/bootstrap-helm-argocd
+    dependency_update: true
     release_namespace: argocd
     values:
       repo: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git
