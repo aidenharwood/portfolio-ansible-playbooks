@@ -1,3 +1,7 @@
+- name: Install ArgoCD CRDs
+  ansible.builtin.shell: |
+    kubectl apply -k https://github.com/argoproj/argo-cd/manifests/crds\?ref\=stable
+
 - name: Clone bootstrap Helm repository
   ansible.builtin.git:
     repo: https://github.com/aidenharwood/portfolio-helm-argocd-bootstrap.git
