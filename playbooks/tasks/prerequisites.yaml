@@ -33,7 +33,7 @@
     ssh-keygen -t ed25519 -q -f ~/.ssh/id_ed25519 -N ""
     
     git clone https://github.com/movd/k0s-ansible.git k0s-ansible
-    k0s-ansible/tools/multipass_create_instances.sh
+    k0s-ansible/tools/multipass_create_instances.sh 4
     k0s-ansible/tools/multipass_generate_inventory.py
 
     for host in $(awk '/ansible_host/ {print $2}' ansible/tools/inventory.yml); do
