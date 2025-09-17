@@ -36,7 +36,7 @@
     k0s-ansible/tools/multipass_create_instances.sh 4
     k0s-ansible/tools/multipass_generate_inventory.py
 
-    for host in $(awk '/ansible_host/ {print $2}' ansible/tools/inventory.yml); do
+    for host in $(awk '/ansible_host/ {print $2}' k0s-ansible/tools/inventory.yml); do
       ssh-keyscan $host >> ~/.ssh/known_hosts
     done
     
