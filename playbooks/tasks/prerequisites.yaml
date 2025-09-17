@@ -1,53 +1,53 @@
 - name: Install kubectl
-  ansible.builtin.shell: |
-      curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-      sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
+  community.general.snap:
+    name: kubectl
+    classic: true
+    state: present
+    
 - name: Install helm
   community.general.snap:
     name: helm
     classic: true
     state: present
 
-- name: Install yq
-  ansible.builtin.apt:
-    name: yq
+- name: Install multipass
+  community.general.snap:
+    name: multipass
+    classic: true
     state: present
 
-- name: Download k0s installer
-  ansible.builtin.get_url:
-    url: https://get.k0s.sh
-    dest: /tmp/get-k0s.sh
-    mode: "0755"
+- name: Install k9s
+  community.general.snap:
+    name: k9s
+    classic: true
+    state: present
 
-- name: Run k0s installer
-  ansible.builtin.shell: /tmp/get-k0s.sh
-  args:
-    creates: /usr/local/bin/k0s
+- name: Setup K0s Cluster
+  ansible.builtin.shell: |
+    export ANSIBLE_HOST_KEY_CHECKING=False
+    
+    mkdir ~/.ssh
+    ssh-keygen 
+    ssh-keygen -t ed25519 -q -f ~/.ssh/id_ed25519 -N ""
+    
+    git clone https://github.com/movd/k0s-ansible.git k0s-ansible
+    k0s-ansible/tools/multipass_create_instances.sh
+    k0s-ansible/tools/multipass_generate_inventory.py
 
-- name: Create k0s configuration directory
-  ansible.builtin.file:
-    path: ${HOME}/.k0s
-    state: directory
+    for host in $(awk '/ansible_host/ {print $2}' ansible/tools/inventory.yml); do
+      ssh-keyscan $host >> ~/.ssh/known_hosts
+    done
+    
+    ansible -i k0s-ansible/tools/inventory.yml all -m ping
+    
+    ansible-playbook k0s-ansible/site.yml -i k0s-ansible/tools/inventory.yml
 
-- name: Create k0s config
-  ansible.builtin.shell: k0s config create > ${HOME}/.k0s/k0s.yaml
-
-- name: Install k0s controller/worker
-  ansible.builtin.shell: k0s install controller --config ${HOME}/.k0s/k0s.yaml --enable-worker --force
-
-- name: Start k0s
-  ansible.builtin.shell: service k0scontroller start
+    mkdir ~/.kube
+    cp k0s-ansible/tools/artifacts/k0s-kubeconfig.yml ~/.kube/config
 
 - name: Initialize k0s credentials
   ansible.builtin.shell: |
-    k0s kubeconfig admin | yq >> ${HOME}/.kube/config
-
-- name: Ensure k0s is running
-  ansible.builtin.systemd:
-    name: k0scontroller
-    state: started
-    enabled: true
+    cp  >> ${HOME}/.kube/config
 
 - name: Open firewall for k0s
   ansible.builtin.shell: |
