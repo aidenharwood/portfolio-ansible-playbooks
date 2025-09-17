@@ -27,9 +27,7 @@
     ln -s /snap/k9s/current/bin/k9s /usr/bin/k9s
 
 - name: Setup K0s Cluster
-  ansible.builtin.shell: |
-    export ANSIBLE_HOST_KEY_CHECKING=False
-    
+  ansible.builtin.shell: |    
     mkdir ~/.ssh
     ssh-keygen 
     ssh-keygen -t ed25519 -q -f ~/.ssh/id_ed25519 -N ""
@@ -48,6 +46,8 @@
 
     mkdir ~/.kube
     cp k0s-ansible/tools/artifacts/k0s-kubeconfig.yml ~/.kube/config
+
+    rm -rf k0s-ansible
 
 - name: Initialize k0s credentials
   ansible.builtin.shell: |
