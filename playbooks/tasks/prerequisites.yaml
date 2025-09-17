@@ -21,6 +21,10 @@
     name: k9s
     classic: true
     state: present
+    
+- name: Create k9s symlink
+  ansible.builtin.shell: |
+    ln -s /snap/k9s/current/bin/k9s /usr/bin/k9s
 
 - name: Setup K0s Cluster
   ansible.builtin.shell: |
