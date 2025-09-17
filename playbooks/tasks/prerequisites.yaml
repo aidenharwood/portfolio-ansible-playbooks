@@ -49,14 +49,11 @@
 
     rm -rf k0s-ansible
 
-- name: Initialize k0s credentials
-  ansible.builtin.shell: |
-    cp  >> ${HOME}/.kube/config
-
 - name: Open firewall for k0s
   ansible.builtin.shell: |
-    sudo ufw allow 6443/tcp
-    sudo ufw allow 80/tcp
-    sudo ufw allow 443/tcp
-    sudo ufw allow 10250/tcp
-    sudo ufw reload
+    ufw allow 22/tcp    #  
+    ufw allow 6443/tcp  # These should be locked to lan-only (no use putting masks in GH)
+    ufw allow 10250/tcp #
+    ufw allow 80/tcp
+    ufw allow 443/tcp
+    ufw enable
