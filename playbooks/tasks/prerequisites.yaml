@@ -10,7 +10,7 @@
     state: present
 
 - name: Install yq
-  community.general.apt:
+  ansible.builtin.apt:
     name: yq
     state: present
 
