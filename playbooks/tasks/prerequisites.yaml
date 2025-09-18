@@ -31,9 +31,11 @@
     mkdir ~/.ssh
     ssh-keygen 
     ssh-keygen -t ed25519 -q -f ~/.ssh/id_ed25519 -N ""
+
+    vm_qty=$(free -m | awk '/Mem:/ {printf "%d\n", ($2/1024)/4 }') # divide available ram (GiB) by 4
     
     git clone https://github.com/movd/k0s-ansible.git k0s-ansible
-    k0s-ansible/tools/multipass_create_instances.sh 4
+    k0s-ansible/tools/multipass_create_instances.sh $vm_qty
     k0s-ansible/tools/multipass_generate_inventory.py
 
     for host in $(awk '/ansible_host/ {print $2}' k0s-ansible/tools/inventory.yml); do
