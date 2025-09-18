@@ -1,0 +1,49 @@
+- name: Install Xorg
+  ansible.builtin.shell: |
+    sudo apt install xserver-xorg xinit
+    sudo apt install x11-xserver-utils
+
+- name: Setup Xorg
+  ansible.builtin.shell: |
+    tee /etc/X11/Xwrapper.config > /dev/null <<EOF
+    allowed_users=anybody
+    needs_root_rights=yes
+    EOF
+
+- name: Create run_on_tv script
+  ansible.builtin.shell: |
+    tee -a /usr/local/bin/run_on_tv.sh > /dev/null <<'EOF'
+    #!/bin/bash
+    # Usage: run_on_tv.sh <app> [args...]
+    APP="$@"
+    shift
+    DISPLAY_NUM=:0
+    VT=7
+    FALLBACK_RES="1920x1080"
+    
+    # Detect HDMI or connected output
+    OUTPUT=$(xrandr --query 2>/dev/null | grep " connected" | awk '{print $1}')
+    
+    # If no display detected (TV off), use fallback
+    if [ -z "$OUTPUT" ]; then
+        OUTPUT="HDMI-1"
+        MODE="$FALLBACK_RES"
+    else
+        # Try to get preferred mode
+        MODE=$(xrandr --query | grep "^$OUTPUT connected" | sed -n 's/.*primary \([0-9x]*\).*/\1/p')
+        # If preferred mode not found, take first available
+        if [ -z "$MODE" ]; then
+            MODE=$(xrandr --query | grep -A1 "^$OUTPUT connected" | tail -n1 | awk '{print $1}')
+        fi
+    fi
+    
+    # Launch app in a one-shot X server
+    xinit /bin/bash -c "
+        # Set resolution
+        xrandr --output $OUTPUT --mode $MODE
+        # Run the app with arguments
+        $APP
+    " -- $DISPLAY_NUM vt$VT
+    EOF
+    
+    chmod +x /usr/local/bin/run_on_tv.sh
